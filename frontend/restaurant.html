@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>餐點外送｜餐廳工作台</title>
+    <link rel="stylesheet" href="./css/app.css" />
+  </head>
+  <body>
+    <header class="appbar">
+      <div class="appbar__brand">
+        <span class="appbar__logo">🍳</span>
+        <span>餐廳工作台</span>
+      </div>
+      <div class="appbar__spacer"></div>
+      <span class="appbar__user" id="userLabel"></span>
+      <button class="btn btn--ghost btn--sm" id="menuBtn" hidden>
+        菜單
+      </button>
+      <button class="btn btn--ghost btn--sm" id="ordersBtn" hidden>
+        訂單
+      </button>
+      <button class="btn btn--ghost btn--sm" id="logoutBtn" hidden>登出</button>
+    </header>
+
+    <main class="container">
+      <!-- 登入 / 註冊 -->
+      <section class="view" id="view-auth">
+        <div class="card auth-wrap">
+          <h2 id="authTitle">餐廳夥伴登入</h2>
+          <p class="muted small">登入以管理菜單與處理訂單</p>
+
+          <div class="auth-tabs">
+            <button data-mode="login" class="is-active">登入</button>
+            <button data-mode="register">註冊</button>
+          </div>
+
+          <form id="authForm">
+            <div class="field" id="nameField" hidden>
+              <label for="f-name">聯絡人姓名</label>
+              <input class="input" id="f-name" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input
+                class="input"
+                id="f-email"
+                type="email"
+                autocomplete="email"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="f-password">密碼</label>
+              <input
+                class="input"
+                id="f-password"
+                type="password"
+                minlength="8"
+                autocomplete="current-password"
+                required
+              />
+              <div class="muted small" id="pwHint" hidden>至少 8 個字元</div>
+            </div>
+            <button class="btn btn--primary btn--block" type="submit" id="authSubmit">
+              登入
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 首次建立餐廳 -->
+      <section class="view" id="view-setup">
+        <div class="card auth-wrap">
+          <h2>建立你的餐廳</h2>
+          <p class="muted small">首次登入需要先填寫餐廳基本資料</p>
+          <form id="restaurantForm">
+            <div class="field">
+              <label for="r-name">餐廳名稱</label>
+              <input class="input" id="r-name" maxlength="100" required />
+            </div>
+            <div class="field">
+              <label for="r-description">餐廳簡介</label>
+              <textarea class="input" id="r-description" rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label for="r-address">地址</label>
+              <input class="input" id="r-address" />
+            </div>
+            <div class="field">
+              <label for="r-phone">聯絡電話</label>
+              <input class="input" id="r-phone" maxlength="20" />
+            </div>
+            <button class="btn btn--primary btn--block" type="submit" id="restaurantSubmit">
+              建立餐廳
+            </button>
+          </form>
+          <div class="muted small" id="setupStatus" style="margin-top: 12px"></div>
+        </div>
+      </section>
+
+      <!-- 菜單管理 -->
+      <section class="view" id="view-menu">
+        <div class="section-head">
+          <h2>菜單管理</h2>
+          <div class="spacer"></div>
+          <button class="btn btn--ghost btn--sm" id="refreshMenuBtn">重新整理</button>
+        </div>
+
+        <div class="card" style="padding: 18px; margin-bottom: 16px">
+          <h3 id="menuRestaurantName"></h3>
+          <p class="muted small" id="menuRestaurantDesc" style="margin-bottom: 0"></p>
+        </div>
+
+        <div class="grid" style="margin-bottom: 18px">
+          <form class="card" id="categoryForm" style="padding: 18px">
+            <h3 style="font-size: 17px; margin-bottom: 14px">新增分類</h3>
+            <div class="field">
+              <label for="categoryName">分類名稱</label>
+              <input class="input" id="categoryName" maxlength="50" required />
+            </div>
+            <div class="field">
+              <label for="categoryOrder">排序</label>
+              <input class="input" id="categoryOrder" type="number" value="0" />
+            </div>
+            <button class="btn btn--primary btn--block" type="submit" id="categorySubmit">
+              新增分類
+            </button>
+          </form>
+
+          <form class="card" id="itemForm" style="padding: 18px">
+            <h3 id="itemFormTitle" style="font-size: 17px; margin-bottom: 14px">
+              新增餐點
+            </h3>
+            <input id="itemId" type="hidden" />
+            <div class="field">
+              <label for="itemName">餐點名稱</label>
+              <input class="input" id="itemName" maxlength="100" required />
+            </div>
+            <div class="field">
+              <label for="itemDescription">餐點說明</label>
+              <textarea class="input" id="itemDescription" rows="2"></textarea>
+            </div>
+            <div class="field">
+              <label for="itemPrice">價格</label>
+              <input
+                class="input"
+                id="itemPrice"
+                type="number"
+                inputmode="decimal"
+                min="0"
+                step="0.01"
+                required
+              />
+            </div>
+            <div class="field">
+              <label for="itemCategory">分類</label>
+              <select class="input" id="itemCategory"></select>
+            </div>
+            <div class="field">
+              <label>
+                <input id="itemSoldOut" type="checkbox" />
+                標記為售罄
+              </label>
+            </div>
+            <div class="row-gap">
+              <button class="btn btn--primary" type="submit" id="itemSubmit" style="flex: 1">
+                新增餐點
+              </button>
+              <button class="btn btn--ghost" type="button" id="cancelItemEdit" hidden>
+                取消編輯
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div id="menuList"></div>
+      </section>
+
+      <!-- 訂單管理 -->
+      <section class="view" id="view-orders">
+        <div class="section-head">
+          <h2>訂單管理</h2>
+          <div class="spacer"></div>
+          <span class="muted small" id="pollHint"></span>
+          <button class="btn btn--ghost btn--sm" id="refreshOrdersBtn">重新整理</button>
+        </div>
+        <div id="orderList"></div>
+      </section>
+    </main>
+
+    <script type="module" src="./js/restaurant.js"></script>
+  </body>
+</html>

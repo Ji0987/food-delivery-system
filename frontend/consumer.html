@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>餐點外送｜消費者</title>
+    <link rel="stylesheet" href="./css/app.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+  </head>
+  <body>
+    <header class="appbar">
+      <div class="appbar__brand">
+        <span class="appbar__logo">🍱</span>
+        <span>餐點外送</span>
+      </div>
+      <div class="appbar__spacer"></div>
+      <span class="appbar__user" id="userLabel"></span>
+      <button class="btn btn--ghost btn--sm" id="ordersBtn" hidden>
+        我的訂單
+      </button>
+      <button class="btn btn--ghost btn--sm" id="logoutBtn" hidden>登出</button>
+    </header>
+
+    <main class="container">
+      <!-- 登入 / 註冊 -->
+      <section class="view" id="view-auth">
+        <div class="card auth-wrap">
+          <h2 id="authTitle">歡迎回來</h2>
+          <p class="muted small">登入以瀏覽餐廳並開始點餐</p>
+
+          <div class="auth-tabs">
+            <button data-mode="login" class="is-active">登入</button>
+            <button data-mode="register">註冊</button>
+          </div>
+
+          <form id="authForm">
+            <div class="field" id="nameField" hidden>
+              <label for="f-name">姓名</label>
+              <input class="input" id="f-name" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input
+                class="input"
+                id="f-email"
+                type="email"
+                autocomplete="email"
+              />
+            </div>
+            <div class="field">
+              <label for="f-password">密碼</label>
+              <input
+                class="input"
+                id="f-password"
+                type="password"
+                autocomplete="current-password"
+              />
+              <div class="muted small" id="pwHint" hidden>至少 8 個字元</div>
+            </div>
+            <button class="btn btn--primary btn--block" type="submit" id="authSubmit">
+              登入
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 餐廳列表 -->
+      <section class="view" id="view-restaurants">
+        <div class="section-head">
+          <h2>選擇餐廳</h2>
+          <div class="spacer"></div>
+        </div>
+        <div id="restaurantList" class="grid"></div>
+      </section>
+
+      <!-- 菜單 -->
+      <section class="view" id="view-menu">
+        <div class="section-head">
+          <button class="btn btn--ghost btn--sm" id="backToRestaurants">
+            ← 返回
+          </button>
+          <div class="spacer"></div>
+        </div>
+        <div class="card" style="padding: 18px; margin-bottom: 16px">
+          <h2 id="menuRestaurantName"></h2>
+          <p class="muted small" id="menuRestaurantDesc"></p>
+        </div>
+        <div id="menuList"></div>
+      </section>
+
+      <!-- 訂單列表 -->
+      <section class="view" id="view-orders">
+        <div class="section-head">
+          <button class="btn btn--ghost btn--sm" id="backFromOrders">←
+            返回</button>
+          <h2 style="margin-left: 4px">我的訂單</h2>
+          <div class="spacer"></div>
+        </div>
+        <div class="card" id="orderList"></div>
+      </section>
+
+      <!-- 訂單詳情 -->
+      <section class="view" id="view-order-detail">
+        <div class="section-head">
+          <button class="btn btn--ghost btn--sm" id="backFromDetail">←
+            返回</button>
+          <div class="spacer"></div>
+          <span class="muted small" id="pollHint"></span>
+        </div>
+        <div class="card" id="orderDetail"></div>
+      </section>
+    </main>
+
+    <!-- 購物車浮動按鈕 -->
+    <button class="cart-fab" id="cartFab" hidden>
+      <span>🛒 購物車</span>
+      <span class="cart-fab__count" id="cartCount">0</span>
+    </button>
+
+    <!-- 購物車抽屜 -->
+    <div class="drawer-backdrop" id="cartBackdrop"></div>
+    <aside class="drawer" id="cartDrawer" aria-label="購物車">
+      <div class="drawer__head">
+        <h3>你的購物車</h3>
+        <div class="spacer" style="flex: 1"></div>
+        <button class="btn btn--ghost btn--sm" id="closeCart">✕</button>
+      </div>
+      <div class="drawer__body" id="cartBody"></div>
+      <div class="drawer__foot">
+        <div class="summary-row">
+          <span class="muted">總計</span>
+          <span class="total" id="cartTotal">NT$ 0.00</span>
+        </div>
+        <button class="btn btn--primary btn--block" id="checkoutBtn">
+          送出訂單（模擬付款）
+        </button>
+      </div>
+    </aside>
+
+    <script type="module" src="./js/consumer.js"></script>
+  </body>
+</html>

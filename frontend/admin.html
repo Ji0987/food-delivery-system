@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>餐點外送｜管理員工作台</title>
+    <link rel="stylesheet" href="./css/app.css" />
+  </head>
+  <body>
+    <header class="appbar">
+      <div class="appbar__brand">
+        <span class="appbar__logo">🛡️</span>
+        <span>管理員工作台</span>
+      </div>
+      <div class="appbar__spacer"></div>
+      <span class="appbar__user" id="userLabel"></span>
+      <button class="btn btn--ghost btn--sm" id="overviewBtn" hidden>總覽</button>
+      <button class="btn btn--ghost btn--sm" id="restaurantsBtn" hidden>餐廳</button>
+      <button class="btn btn--ghost btn--sm" id="categoriesBtn" hidden>分類</button>
+      <button class="btn btn--ghost btn--sm" id="logoutBtn" hidden>登出</button>
+    </header>
+
+    <main class="container">
+      <section class="view" id="view-auth">
+        <div class="card auth-wrap">
+          <h2>管理員登入</h2>
+          <p class="muted small">請使用由內部流程建立的管理員帳號登入</p>
+          <form id="authForm">
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input class="input" id="f-email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="f-password">密碼</label>
+              <input class="input" id="f-password" type="password" autocomplete="current-password" required />
+            </div>
+            <button class="btn btn--primary btn--block" type="submit" id="authSubmit">
+              登入
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section class="view" id="view-overview">
+        <div class="section-head">
+          <h2>營運總覽</h2>
+          <div class="spacer"></div>
+          <button class="btn btn--ghost btn--sm" id="refreshOverviewBtn">重新整理</button>
+        </div>
+        <div id="overviewContent"></div>
+      </section>
+
+      <section class="view" id="view-restaurants">
+        <div class="section-head">
+          <h2>餐廳帳號管理</h2>
+          <div class="spacer"></div>
+          <button class="btn btn--ghost btn--sm" id="refreshRestaurantsBtn">重新整理</button>
+        </div>
+        <div class="notice notice--info">
+          停權後餐廳無法再登入操作；既有訂單與餐點資料會保留。
+        </div>
+        <div id="restaurantList"></div>
+      </section>
+
+      <section class="view" id="view-categories">
+        <div class="section-head">
+          <h2>跨餐廳分類管理</h2>
+          <div class="spacer"></div>
+          <button class="btn btn--ghost btn--sm" id="refreshCategoriesBtn">重新整理</button>
+        </div>
+        <div class="grid admin-grid">
+          <form class="card compact-card" id="categoryForm">
+            <h3 id="categoryFormTitle">新增分類</h3>
+            <input type="hidden" id="categoryId" />
+            <div class="field">
+              <label for="categoryRestaurant">所屬餐廳</label>
+              <select class="input" id="categoryRestaurant" required></select>
+            </div>
+            <div class="field">
+              <label for="categoryName">分類名稱</label>
+              <input class="input" id="categoryName" maxlength="50" required />
+            </div>
+            <div class="field">
+              <label for="categoryOrder">排序</label>
+              <input class="input" id="categoryOrder" type="number" value="0" required />
+            </div>
+            <div class="row-gap">
+              <button class="btn btn--primary" id="categorySubmit" type="submit">新增分類</button>
+              <button class="btn btn--ghost" id="cancelCategoryEdit" type="button" hidden>取消編輯</button>
+            </div>
+          </form>
+          <div class="card compact-card">
+            <h3>管理提示</h3>
+            <p class="muted small">分類會隸屬於指定餐廳。編輯時不能跨餐廳搬移，以避免影響既有餐點關聯。</p>
+            <p class="muted small">刪除分類前，請先確認其下沒有仍在使用的餐點。</p>
+          </div>
+        </div>
+        <div id="categoryList"></div>
+      </section>
+    </main>
+
+    <script type="module" src="./js/admin.js"></script>
+  </body>
+</html>

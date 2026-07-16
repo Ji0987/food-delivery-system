@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>餐點外送｜外送員工作台</title>
+    <link rel="stylesheet" href="./css/app.css" />
+  </head>
+  <body>
+    <header class="appbar">
+      <div class="appbar__brand">
+        <span class="appbar__logo">🛵</span>
+        <span>外送員工作台</span>
+      </div>
+      <div class="appbar__spacer"></div>
+      <span class="appbar__user" id="userLabel"></span>
+      <button class="btn btn--ghost btn--sm" id="dispatchBtn" hidden>配送工作台</button>
+      <button class="btn btn--ghost btn--sm" id="logoutBtn" hidden>登出</button>
+    </header>
+
+    <main class="container">
+      <section class="view" id="view-auth">
+        <div class="card auth-wrap">
+          <h2 id="authTitle">外送員登入</h2>
+          <p class="muted small">登入以搶單、更新配送狀態與回報位置</p>
+          <div class="auth-tabs">
+            <button data-mode="login" class="is-active">登入</button>
+            <button data-mode="register">註冊</button>
+          </div>
+          <form id="authForm">
+            <div class="field" id="nameField" hidden>
+              <label for="f-name">姓名</label>
+              <input class="input" id="f-name" autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input class="input" id="f-email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="f-password">密碼</label>
+              <input class="input" id="f-password" type="password" minlength="8" autocomplete="current-password" required />
+              <div class="muted small" id="pwHint" hidden>至少 8 個字元</div>
+            </div>
+            <button class="btn btn--primary btn--block" type="submit" id="authSubmit">登入</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="view" id="view-dispatch">
+        <div class="section-head">
+          <h2>配送工作台</h2>
+          <div class="spacer"></div>
+          <span class="muted small" id="pollHint"></span>
+          <button class="btn btn--ghost btn--sm" id="refreshBtn">重新整理</button>
+        </div>
+
+        <section class="card compact-card" id="locationPanel">
+          <div class="section-head section-head--compact">
+            <h3>即時定位</h3>
+            <div class="spacer"></div>
+            <button class="btn btn--primary btn--sm" id="locationToggleBtn" disabled>
+              啟動定位
+            </button>
+          </div>
+          <p class="muted small" id="locationStatus">
+            搶單後，在「已取餐」或「配送中」階段可啟動定位回報。
+          </p>
+        </section>
+
+        <section class="courier-section">
+          <div class="section-head section-head--compact">
+            <h3>我的配送</h3>
+            <span class="muted small" id="activeCount"></span>
+          </div>
+          <div id="activeDeliveryList"></div>
+        </section>
+
+        <section class="courier-section">
+          <div class="section-head section-head--compact">
+            <h3>可搶訂單</h3>
+            <span class="muted small">餐點完成後會出現在此處</span>
+          </div>
+          <div id="availableOrderList"></div>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="./js/courier.js"></script>
+  </body>
+</html>
