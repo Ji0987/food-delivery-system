@@ -10,6 +10,9 @@ from backend.config import get_settings
 
 
 def _normalize_database_url(database_url: str) -> str:
+    # Render dashboard values can be pasted with surrounding quotes or
+    # whitespace; remove those wrappers before SQLAlchemy parses the URL.
+    database_url = database_url.strip().strip('"').strip("'")
     if database_url.startswith("postgres://"):
         return database_url.replace("postgres://", "postgresql+psycopg://", 1)
     if database_url.startswith("postgresql://"):
