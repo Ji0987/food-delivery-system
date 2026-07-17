@@ -81,6 +81,12 @@
 - **原因**：SQLite 的 `DateTime(timezone=True)` 仍可能遺失時區資訊，造成前端將 UTC 誤當本地時間，顯示相差 8 小時。
 - **影響範圍**：`backend/models/types.py` 的 `UTCDateTime` 與所有模型時間欄位；前端仍保留對舊版 naive ISO 字串補 `Z` 的防禦性解析。
 
+### 2026-07-17｜採用 main/dev/feature 分支策略，先前 main 歷史不追溯重寫
+
+- **決策**：自本日起，本專案採 `main`（穩定展示／發布）／`dev`（整合測試）／`feature/*`／`fix/*`（個人開發）三層分支策略，`feature/* → dev` 與 `dev → main` 一律經 Pull Request；規則明細見 `AGENTS.md` 「Git 分支與 PR 規範」。`dev-standards` skill 同步新增第5點規範內容。
+- **原因**：`main` 上既有三個 commit（階段一~四全部功能）皆為切換此規範前的個人直接開發，未經 dev/feature/PR 流程；配合 Day3 Git 協作課程，決定不對舊 commit 做形式性 retrofit PR（PR 無法回溯改寫歷史，假 PR 反而誤導），改為明確記錄基線切換點。
+- **影響範圍**：剩餘待辦 D.1（Render 部署）、D.2（資料持久性驗證）起，`todo.md` 新增 owner／對應 branch 欄位並依此規範走 PR 流程；先前已 Done 的階段一~四項目狀態不變、標示為「切換前基線」。
+
 ---
 
 ## 已知限制（截至本文件建立時）
