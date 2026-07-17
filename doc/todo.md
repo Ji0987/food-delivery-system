@@ -51,8 +51,8 @@
 
 | # | 項目 | 相依關係 | 驗收條件 | Owner | 對應 Branch | 狀態 |
 |---|---|---|---|---|---|---|
-| D.1 | 部署到 Render（Web Service + Render PostgreSQL） | 階段一完成 | 系統可透過對外網址存取（對應 requirements.md 驗收標準 3） | 待指派 | `feature/render-deployment` | Todo |
-| D.2 | 驗證資料持久性（服務重啟後資料仍保留） | D.1 | 重啟 Render 服務後，先前建立的訂單/餐點資料仍存在（對應 requirements.md 驗收標準 4） | 待指派 | `test/persistence-verification` | Todo |
+| D.1 | 部署到 Render（Web Service + Render PostgreSQL） | 階段一完成 | 系統可透過對外網址存取（對應 requirements.md 驗收標準 3）。已部署於 `https://food-delivery-api-sn5q.onrender.com`，健康檢查、`/docs`、註冊/登入/查詢 API 皆驗證正常 | 使用者 | `feature/render-deployment` | Done |
+| D.2 | 驗證資料持久性（服務重啟後資料仍保留） | D.1 | 重啟 Render 服務後，先前建立的訂單/餐點資料仍存在（對應 requirements.md 驗收標準 4）。已用測試帳號驗證：重啟前註冊 `deploy-check@example.com`（`id:2`），重啟後仍可用同帳號登入且 `created_at` 不變，證實資料落在 Render PostgreSQL、非 SQLite fallback | 使用者 | `feature/render-deployment` | Done |
 
 ## 等待確認（不可直接開發，需先釐清才能轉為正式待辦）
 
