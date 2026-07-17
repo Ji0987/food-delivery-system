@@ -87,6 +87,12 @@
 - **原因**：`main` 上既有三個 commit（階段一~四全部功能）皆為切換此規範前的個人直接開發，未經 dev/feature/PR 流程；配合 Day3 Git 協作課程，決定不對舊 commit 做形式性 retrofit PR（PR 無法回溯改寫歷史，假 PR 反而誤導），改為明確記錄基線切換點。
 - **影響範圍**：剩餘待辦 D.1（Render 部署）、D.2（資料持久性驗證）起，`todo.md` 新增 owner／對應 branch 欄位並依此規範走 PR 流程；先前已 Done 的階段一~四項目狀態不變、標示為「切換前基線」。
 
+### 2026-07-17｜D.1/D.2 完成：Render 部署與資料持久性已驗證
+
+- **決策／紀錄**：後端已部署至 `https://food-delivery-api-sn5q.onrender.com`（Render Web Service + PostgreSQL）。以測試帳號 `deploy-check@example.com` 驗證：註冊/登入/查詢 API 正常，且服務重啟後同帳號仍可登入、`created_at` 不變，證實資料確實持久化在 PostgreSQL。
+- **原因**：`backend/config.py` 的 `DEFAULT_SQLITE_URL` fallback 機制代表若 Render 的 `DATABASE_URL` 環境變數未生效，系統會靜默改用非持久化的本機 SQLite 且不報錯；因此明確排除此風險是 D.2 驗收的核心目的，不能只看 API 回應正常就視為過關。
+- **影響範圍**：`todo.md` D.1、D.2 狀態更新為 Done；此 fallback 機制本身予以保留（本機開發／測試仍需要它），但正式環境務必確認 `DATABASE_URL` 已在 Render 後台正確設定，未來如有類似「環境變數漏設但系統照常啟動」的靜默風險，建議評估加上啟動時的顯式警告或健康檢查揭露目前使用的資料庫類型。
+
 ---
 
 ## 已知限制（截至本文件建立時）
